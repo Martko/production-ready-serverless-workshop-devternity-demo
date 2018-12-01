@@ -1,4 +1,4 @@
-service: workshop-yancui
+service: workshop-martin
 
 plugins:
   - serverless-pseudo-parameters
@@ -55,9 +55,9 @@ functions:
     events:
       - http:
           path: /restaurants/
-          method: get          
+          method: get
     environment:
-      restaurants_table: 
+      restaurants_table:
         Ref: restaurantsTable
 
   search-restaurants:
@@ -100,7 +100,7 @@ resources:
     restaurantsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: restaurants-${self:provider.stage}-yancui
+        TableName: restaurants-${self:provider.stage}-martin
         AttributeDefinitions:
           - AttributeName: name
             AttributeType: S
@@ -114,20 +114,20 @@ resources:
     orderEventsStream:
       Type: AWS::Kinesis::Stream
       Properties: 
-        # Name: orders-${self:provider.stage}-yancui
-        Name: ${ssm:/workshop-yancui/dev/stream_name}
+        Name: orders-${self:provider.stage}-martin
+        #Name: ${ssm:/workshop-martin/dev/stream_name}
         ShardCount: 1
 
     restaurantNotificationTopic:
       Type: AWS::SNS::Topic
-      Properties: 
-        DisplayName: restaurants-${self:provider.stage}-yancui
-        TopicName: restaurants-${self:provider.stage}-yancui
+      Properties:
+        DisplayName: restaurants-${self:provider.stage}-martin
+        TopicName: restaurants-${self:provider.stage}-martin
 
     mySubscription:
       Type: AWS::SNS::Subscription
       Properties:
-        Endpoint: <enter your email>
+        Endpoint: martin@skydive.ee
         Protocol: email
         TopicArn: 
           Ref: restaurantNotificationTopic            

@@ -6,24 +6,24 @@ const dynamodb = new AWS.DynamoDB.DocumentClient()
 const ssm = new AWS.SSM()
 
 let restaurants = [
-  { 
-    name: "Fangtasia", 
-    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/fangtasia.png", 
+  {
+    name: "Fangtasia",
+    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/fangtasia.png",
     themes: ["true blood"] 
   },
   { 
     name: "Shoney's", 
-    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/shoney's.png", 
+    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/shoney's.png",
     themes: ["cartoon", "rick and morty"] 
   },
   { 
-    name: "Freddy's BBQ Joint", 
-    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/freddy's+bbq+joint.png", 
-    themes: ["netflix", "house of cards"] 
+    name: "Freddy's BBQ Joint",
+    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/freddy's+bbq+joint.png",
+    themes: ["netflix", "house of cards"]
   },
   { 
     name: "Pizza Planet", 
-    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/pizza+planet.png", 
+    image: "https://d2qt42rcwzspd6.cloudfront.net/manning/pizza+planet.png",
     themes: ["netflix", "toy story"] 
   },
   { 
@@ -49,7 +49,7 @@ let restaurants = [
 ];
 
 const getTableName = async () => {
-  return `restaurants-${STAGE}-yancui`
+  return `restaurants-${STAGE}-martin`
 }
 
 const run = async () => {
