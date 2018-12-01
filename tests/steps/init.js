@@ -8,10 +8,13 @@ const init = async () => {
     return
   }
 
-  process.env.restaurants_api   = "https://tprog49uui.execute-api.eu-west-1.amazonaws.com/dev/restaurants"
+  const deployRoot = 'https://tprog49uui.execute-api.eu-west-1.amazonaws.com';
+
+  process.env.restaurants_api   = `${deployRoot}/dev/restaurants`
   process.env.restaurants_table = "restaurants-dev-martin"
   process.env.AWS_REGION        = "eu-west-1"
-  
+  process.env.TEST_ROOT         = `${deployRoot}/dev`
+
   initialized = true
 }
 
