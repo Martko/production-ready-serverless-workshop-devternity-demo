@@ -24,7 +24,7 @@ let restaurants = [
   { 
     name: "Pizza Planet", 
     image: "https://d2qt42rcwzspd6.cloudfront.net/manning/pizza+planet.png",
-    themes: ["netflix", "toy story"] 
+    themes: ["netflix", "toy story"]
   },
   { 
     name: "Leaky Cauldron", 
@@ -49,7 +49,12 @@ let restaurants = [
 ];
 
 const getTableName = async () => {
-  return `restaurants-${STAGE}-martin`
+  console.log('getting table name...')
+  const req = {
+    Name: `/workshop-martin/${STAGE}/table_name`
+  }
+  const ssmResp = await ssm.getParameter(req).promise()
+  return ssmResp.Parameter.Value
 }
 
 const run = async () => {

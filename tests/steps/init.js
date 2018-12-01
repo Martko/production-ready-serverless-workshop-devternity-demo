@@ -1,20 +1,46 @@
-process.env.order_events_stream = 'orders-dev-martin'
-process.env.restaurant_notification_topic = 'restaurants-dev-martin'
+const _ = require('lodash')
+const { REGION, STAGE } = process.env
+const AWS = require('aws-sdk')
+AWS.config.region = REGION
+const SSM = new AWS.SSM()
 
 let initialized = false
+
+const getParameters = async (keys) => {
+  const prefix = `/workshop-martin/${STAGE}/`
+  const req = {
+    Names: keys.map(key => `${prefix}${key}`)
+  }
+  const resp = await SSM.getParameters(req).promise()
+  return _.reduce(resp.Parameters, function(obj, param) {
+    obj[param.Name.substr(prefix.length)] = param.Value
+    return obj
+   }, {})
+}
 
 const init = async () => {
   if (initialized) {
     return
   }
 
-  const deployRoot = 'https://tprog49uui.execute-api.eu-west-1.amazonaws.com';
+  const params = await getParameters([
+    'table_name',
+    'stream_name',
+    'restaurant_topic_name',
+    'url'
+  ])
 
-  process.env.restaurants_api   = `${deployRoot}/dev/restaurants`
-  process.env.restaurants_table = "restaurants-dev-martin"
-  process.env.AWS_REGION        = "eu-west-1"
-  process.env.TEST_ROOT         = `${deployRoot}/dev`
+  console.log('SSM params loaded')
+  console.log(params);
 
+  process.env.TEST_ROOT                     = params.url
+  process.env.orders_api                    = `${params.url}/orders`
+  process.env.restaurants_api               = `${params.url}/restaurants`
+  process.env.restaurants_table             = params.table_name
+  process.env.AWS_REGION                    = REGION
+  process.env.order_events_stream           = params.stream_name
+  process.env.restaurant_notification_topic = params.restaurant_topic_name
+  
   initialized = true
 }
 
