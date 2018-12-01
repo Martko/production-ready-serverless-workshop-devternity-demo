@@ -6,6 +6,7 @@ const SSM = new AWS.SSM()
 
 let initialized = false
 
+
 const getParameters = async (keys) => {
   const prefix = `/workshop-martin/${STAGE}/`
   const req = {
